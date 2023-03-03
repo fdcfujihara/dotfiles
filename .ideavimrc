@@ -3,6 +3,8 @@ set ignorecase
 set smartcase
 set incsearch
 set hlsearch
+set scrolloff=4
+
 "" clear highlights
 nnoremap <Esc><Esc> :nohlsearch<CR><ESC>
 set clipboard+=unnamed

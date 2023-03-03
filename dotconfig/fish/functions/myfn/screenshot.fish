@@ -1,13 +1,15 @@
 function screenshot -d '-s to select region'
     argparse 's/selection' -- $argv || return
 
-    set -l f /tmp/screenshot-(date +'%Y%m%d-%H%M%S').png
+    set -l dir "$HOME/Pictures"
+    mkdir $dir 2>/dev/null
+    set -l file "$dir/screenshot-"(date +'%Y%m%d-%H%M%S')".png"
 
     if set -lq _flag_s
-        import $f
+        grim -g "$(slurp)" $file
     else
-        import -window root $f
+        grim $file
     end
 
-    dunstify -u low $f
+    dunstify -u low $file
 end

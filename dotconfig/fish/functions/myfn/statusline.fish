@@ -15,11 +15,13 @@ function statusline -d '-u to update'
     function print_msg
         set msg (date "+%a %b %d %H:%M") 
 
-        # Show battery status if it exists.
+        # Prepend battery status if it exists.
         if test -d '/sys/class/power_supply/BAT0/'
-            set -l batt (acpi | awk -F ',' '{ print $2 }' | tr -d ' %')
-            set -p msg ''$batt
+            set -p msg ''$(acpi | awk -F ',' '{ print $2 }' | tr -d ' %')
         end
+
+        # Prepend CPU temp
+        set -p msg  $(sensors | grep -Po "(?<=Package id 0:  \+)[^ ]+" | sed -e "s/\.0//")
 
         is_mute && set -p msg ' mute'
         string join ' . ' $msg
@@ -28,7 +30,7 @@ function statusline -d '-u to update'
     # Start loop
     while true
         print_msg
-        for n in (seq 30)
+        for n in (seq 20)
             sleep 0.1
         end
     end

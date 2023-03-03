@@ -14,35 +14,30 @@
     home.packages = [ 
 
       pkgs.acpi
-      # pkgs.alacritty
-      # # pkgs.android-studio
-      # pkgs.brightnessctl
-      # pkgs.dunst
-      # pkgs.feh
-      # pkgs.ffmpeg
+      pkgs.alacritty
+      # pkgs.android-studio
+      pkgs.brightnessctl
+      pkgs.dunst
+      pkgs.feh
+      pkgs.ffmpeg
       # pkgs.firefox
-      # pkgs.fish
-      # pkgs.font-awesome
-      # # pkgs.google-chrome
-      # # pkgs.home-manager-path
-      # # pkgs.htop-vim-unstable
-      # pkgs.imagemagick
-      # pkgs.jq
-      # # pkgs.nss-cacert
-      # pkgs.pavucontrol
-      # pkgs.pstree
-      # # pkgs.ricty
-      # pkgs.screenkey
-      # pkgs.slop
-      # pkgs.source-han-code-jp
-      # pkgs.source-han-sans
-      # pkgs.source-han-serif
-      # pkgs.xfce.thunar
-      # pkgs.tldr
-      # pkgs.usbutils
-      pkgs.vscode
-      # pkgs.xautolock
-      # pkgs.xorg.xev
+      pkgs.fish
+      # pkgs.google-chrome
+      pkgs.htop-vim
+      pkgs.imagemagick
+      pkgs.jq
+      # pkgs.nss-cacert
+      pkgs.pavucontrol
+      pkgs.pstree
+      # pkgs.ricty
+      pkgs.screenkey
+      pkgs.slop
+      pkgs.xfce.thunar
+      pkgs.tldr
+      pkgs.usbutils
+      # pkgs.vscode
+      pkgs.xautolock
+      pkgs.xorg.xev
 
     ];
 
@@ -56,8 +51,8 @@
 
     programs.git = {
       enable = true;
-      userName  = "fujifruity";
-      userEmail = "fujifruity@gmail.com";
+      userName  = "fdc.fuji";
+      userEmail = "fdc.fuji@gmail.com";
     };
 
     programs.vim = {
@@ -92,6 +87,10 @@
         kmonad ~/dotfiles/dotconfig/kmonad/config.kbd &
       '';
     };
+    programs.zsh = {
+      enable = true;
+      initExtra = builtins.readFile /home/fuji/dotfiles/.zshrc;
+    };
 
     ## Examples:
     # xdg.configFile."kmonad/config.kbd".source = /home/fuji/dotfiles/dotconfig/kmonad/config.kbd;
@@ -109,6 +108,7 @@
     #   xautolock.extraOptions = ["-time 7 -notify 10 -notifier \"dunstify zzz\" -locker \"fish -c lock\" -lockaftersleep -detectsleep -corners 000-"];
     # };
 
-    home.stateVersion = "22.05";
+    home.stateVersion = "23.05";
+
   };
 }

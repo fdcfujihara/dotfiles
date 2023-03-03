@@ -12,7 +12,7 @@
 { config, pkgs, ... }:
 
 let
-  kmonad = import /home/fuji/.config/nixpkgs/kmonad-adhoc.nix;
+  kmonad = import /home/fuji/dotfiles/dotconfig/nixpkgs/kmonad-adhoc.nix;
 in
 {
   # Use the systemd-boot EFI boot loader.
@@ -49,12 +49,21 @@ in
     ibus.engines = with pkgs.ibus-engines; [ mozc ];
   };
 
-  fonts.fonts = with pkgs; [
-    source-han-serif-japanese
-    source-han-sans-japanese
-    source-han-code-jp
-    font-awesome
-  ];
+  fonts = {
+    fonts = with pkgs; [
+      source-han-serif-japanese
+      source-han-sans-japanese
+      source-han-code-jp
+      font-awesome
+    ];
+    fontconfig = {
+      defaultFonts = {
+        serif = [ "Source Han Serif" ];
+        sansSerif = [ "Source Han Sans" ];
+        monospace = [ "Source Han Code JP" ];
+      };
+    };
+  };
 
   systemd.services.lock-before-suspend = { 
     description = "lock-before-suspend";
@@ -107,6 +116,10 @@ in
 
   # Enable touchpad support (enabled default in most desktopManager).
   services.xserver.libinput.enable = true;
+
+  # Flatpak
+  services.flatpak.enable = true;
+  xdg.portal.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.groups = { uinput = {}; };  # kmonad
@@ -178,7 +191,7 @@ in
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "22.05"; # Did you read the comment?
+  system.stateVersion = "23.05"; # Did you read the comment?
 
 }
 

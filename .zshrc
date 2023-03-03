@@ -1,5 +1,5 @@
 #
-# ~/.bashrc
+# ~/.zshrc
 #
 
 # If not running interactively, don't do anything
@@ -20,17 +20,17 @@ bin=$HOME/bin
 source $bin/z.sh
 z --clean > /dev/null 2>&1 
 ## Git
-source $bin/git-completion.bash
+# source $bin/git-completion.bash
 source $bin/git-prompt.sh
 export GIT_PS1_SHOWDIRTYSTATE=1
-## FZF
-if command -v fzf-share >/dev/null; then
-  source "$(fzf-share)/key-bindings.bash"
-  source "$(fzf-share)/completion.bash"
-fi
+### FZF
+#source /usr/share/fzf/key-bindings.bash
+#source /usr/share/fzf/completion.bash
 
-## Vim directories
-mkdir ~/.cache/vim ~/.cache/vim/backup ~/.cache/vim/swap ~/.cache/vim/undo 2>/dev/null
+if [ -n "${commands[fzf-share]}" ]; then
+  source "$(fzf-share)/key-bindings.zsh"
+  source "$(fzf-share)/completion.zsh"
+fi
 
 source ~/bin/my-commands.sh
 source ~/bin/nc-commands.sh

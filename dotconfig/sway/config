@@ -103,7 +103,7 @@ bindsym $mod+a focus parent
 ### App launcher
 #
 set $mozc  "/run/current-system/sw/lib/mozc/mozc_tool --mode=config_dialog"
-set $studio  "_JAVA_AWT_WM_NONREPARENTING=1 android-studio-dev"
+set $studio  "_JAVA_AWT_WM_NONREPARENTING=1 android-studio"
 bindsym $mod+o mode "Launcher" ; exec fish -c launcher_guide
 mode "Launcher" {
     bindsym a      exec $studio                   ; mode "default" ; exec dunstctl close
@@ -163,7 +163,7 @@ bar {
     # i3bar_command /usr/bin/i3bar
     status_command fish -c statusline
     position bottom
-    font pango:monospace bold 13
+    font pango:monospace bold 11
     colors {
         statusline $white
         background $gray0
@@ -188,6 +188,10 @@ input type:touchpad {
     dwt enabled # disable-while-typing
     pointer_accel 0.5
 }
+input type:pointer {
+    natural_scroll enabled
+    pointer_accel 0.1
+}
 
 #
 # Other
@@ -196,7 +200,7 @@ input type:touchpad {
 for_window [class="feh" instance="feh"] floating enable
 for_window [class="Thunar" instance="thunar"] floating enable
 for_window [class="Pavucontrol" instance="pavucontrol"] floating enable
-font pango:monospace bold 13
+font pango:monospace bold 11
 default_border pixel 2
 default_floating_border pixel 2
 hide_edge_borders smart

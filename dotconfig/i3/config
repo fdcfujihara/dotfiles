@@ -103,11 +103,12 @@ bindsym $mod+a focus parent
 ### App launcher
 #
 set $mozc  "/run/current-system/sw/lib/mozc/mozc_tool --mode=config_dialog"
+set $studio  "_JAVA_AWT_WM_NONREPARENTING=1 android-studio"
 bindsym $mod+o mode "Launcher" ; exec fish -c launcher_guide
 mode "Launcher" {
     bindsym a      exec android-studio            ; mode "default" ; exec dunstctl close
     bindsym c      exec code                      ; mode "default" ; exec dunstctl close
-    bindsym f      exec firefox                   ; mode "default" ; exec dunstctl close
+    bindsym f      exec google-chrome-stable      ; mode "default" ; exec dunstctl close
     bindsym m      exec $mozc                     ; mode "default" ; exec dunstctl close
     bindsym p      exec pavucontrol               ; mode "default" ; exec dunstctl close
     bindsym t      exec thunar                    ; mode "default" ; exec dunstctl close

@@ -28,7 +28,8 @@
 
 
 (defcfg
-  input  (device-file "/dev/input/by-path/platform-i8042-serio-0-event-kbd")
+  ;; input  (device-file "/dev/input/by-path/platform-i8042-serio-0-event-kbd")
+  input  (device-file "/dev/input/by-path/pci-0000:00:14.0-usb-0:9.3:1.0-event-kbd")
   output (uinput-sink "KMonad kbd"))
 
 (defalias
@@ -49,8 +50,8 @@
   grv  1    2    3    4    5    6    7    8    9    0    -    =    bspc
   tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
   caps a    s    d    f    g    h    j    k    l    ;    '    ret
-  lsft z    x    c    v    b    n    m    ,    .    /    rsft up
-  lctl lmet lalt           spc            ralt rctl      left down rght
+  lsft z    x    c    v    b    n    m    ,    .    /    rsft      up
+  lctl lmet lalt           spc            ralt rmet comp rctl left down rght
 )
 
 (deflayer base
@@ -58,8 +59,8 @@
   grv  1    2    3    4    5    6    7    8    9    0    -    =    S-spc
   tab  q    w    e    r    t    y    u    i    o    p    [    ]     \
   @sym a    s    d    f    g    h    j    k    l    ;    '    ret
-  bspc z    x    c    v    b    n    m    ,    .    /    del  up
-  lctl lmet @ahi           @ssp           @aes @mme      @cle down rght
+  bspc z    x    c    v    b    n    m    ,    .    /    del       up
+  lctl lmet @ahi           @ssp           @aes rmet comp rctl left down rght
 )
 
 (deflayer syms
@@ -67,6 +68,6 @@
   _    _    _    _    _    _    _    _    _    _    _    _    _    _
   _    _    _    _    _    _    _    @cgu pgup pgdn @cgd @lec @ric _
   _    _    _    _    _    _    left down up   rght home end  _
-  _    _    _    _    _    _    _    _    bspc del  _    _    _
-  _    _    _              _              _    _         _    _    _
+  _    _    _    _    _    _    _    _    bspc del  _    _         _
+  _    _    _              _              _    _    _    _    _    _    _
 )
