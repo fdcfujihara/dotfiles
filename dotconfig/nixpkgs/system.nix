@@ -20,6 +20,7 @@ in
   boot.loader.timeout = 1;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.supportedFilesystems = [ "ntfs" ];
 
   networking.hostName = "nixpad"; # Define your hostname.
   # Pick only one of the below networking options.
@@ -48,6 +49,12 @@ in
     enabled = "ibus";
     ibus.engines = with pkgs.ibus-engines; [ mozc ];
   };
+
+  # i18n.inputMethod = {
+  #   enabled = "fcitx5";
+  #   fcitx5.addons = with pkgs; [ fcitx5-mozc ];
+  #   fcitx5.addons = with pkgs; [ fcitx5-gtk ];
+  # };
 
   fonts = {
     fonts = with pkgs; [
@@ -86,9 +93,8 @@ in
   # Enable the X11 windowing system.
   services.xserver = {
     enable = true;
-    displayManager = {
-      startx.enable = true;
-    };
+    autorun = false;
+    displayManager.startx.enable = true;
     windowManager.i3 = {
       enable = true;
       extraPackages = with pkgs; [
@@ -113,13 +119,10 @@ in
   sound.enable = true;
   hardware.pulseaudio.enable = true;
   hardware.bluetooth.enable = true;
+  hardware.keyboard.qmk.enable = true;
 
   # Enable touchpad support (enabled default in most desktopManager).
   services.xserver.libinput.enable = true;
-
-  # Flatpak
-  services.flatpak.enable = true;
-  xdg.portal.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.groups = { uinput = {}; };  # kmonad
@@ -133,13 +136,23 @@ in
        "uinput" # kmonad
        "kvm" # android emulator
        "adbusers" # adb
+       "libvirtd"  # OSX-KVM
     ];
   };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment = {
-    variables = { EDITOR = "vim"; };
+    sessionVariables = rec {
+      PATH = [ 
+        "/nix/store/dnyzhks5xfp0id72k6fpw91rblk7qlcr-android-studio-stable-2022.1.1.19-unwrapped/jbr/bin"
+        "$HOME/Android/Sdk/build-tools/33.0.2"
+        # "\${HOME}/Android/Sdk/build-tools:$HOME/Android/Sdk/platform-tools"
+      ];
+    };
+    variables = { 
+      EDITOR = "vim"; 
+    };
     systemPackages = with pkgs; [
       wget
       git
@@ -147,6 +160,23 @@ in
       fzf # vim
       kmonad
       # home-manager
+      alacritty # gpu accelerated terminal
+      dunst
+      # sway
+      # dbus-sway-environment
+      # configure-gtk
+      # wayland
+      xdg-utils # for opening default programs when clicking links
+      glib # gsettings
+      dracula-theme # gtk theme
+      gnome.adwaita-icon-theme  # default gnome cursors
+      # swaylock
+      # swayidle
+      # grim # screenshot functionality
+      # slurp # screenshot functionality
+      # wl-clipboard # wl-copy and wl-paste for copy/paste from stdin / stdout
+      # bemenu # wayland clone of dmenu
+      # mako # notification system developed by swaywm maintainer
     ];
     pathsToLink = [ "/libexec" ]; # (for i3) links /libexec from derivations to /run/current-system/sw
   };
@@ -157,6 +187,19 @@ in
       KERNEL=="uinput", MODE="0660", GROUP="uinput", OPTIONS+="static_node=uinput"
     '';
 
+  # Flatpak
+  services.flatpak.enable = true;
+  # xdg.portal.enable = true;
+  xdg.portal = {
+    enable = true;
+    extraPortals = [
+      pkgs.xdg-desktop-portal-gtk
+      pkgs.xdg-desktop-portal
+    ];
+  };
+
+  services.gnome.gnome-keyring.enable = true;
+
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
@@ -165,9 +208,38 @@ in
   #   enableSSHSupport = true;
   # };
   programs.dconf.enable = true;
-  virtualisation.libvirtd.enable = true;  # android emulator acceleration
+  virtualisation.libvirtd.enable = true;  # android emulator acceleration & OSX-KVM
   programs.adb.enable = true;  # add adb to PATH
   programs.sway.enable = true;
+  programs.thunar.enable = true;
+  programs.thunar.plugins = with pkgs.xfce; [
+    thunar-archive-plugin
+    thunar-volman
+  ];
+
+  # ## FOR VIRTUAL DEVICES
+  # # Make some extra kernel modules available to NixOS
+  # boot.extraModulePackages = with config.boot.kernelPackages; [ v4l2loopback.out ];
+  # # Activate kernel modules (choose from built-ins and extra ones)
+  # boot.kernelModules = [
+  #   # Virtual Camera
+  #   "v4l2loopback"
+  #   # Virtual Microphone, built-in
+  #   "snd-aloop"
+  # ];
+
+  # users.extraUsers.fuji.extraGroups = [ "libvirtd" ];
+  boot.extraModprobeConfig = ''
+    ## OSX-KVM
+    options kvm_intel nested=1
+    options kvm_intel emulate_invalid_guest_state=0
+    options kvm ignore_msrs=1
+    ## FOR VIRTUAL DEVICES
+    # exclusive_caps: Skype, Zoom, Teams etc. will only show device when actually streaming
+    # card_label: Name of virtual camera, how it'll show up in Skype, Zoom, Teams
+    # https://github.com/umlaeute/v4l2loopback
+    #options v4l2loopback exclusive_caps=1 card_label="Virtual Camera"
+  '';
 
   # List services that you want to enable:
 

@@ -67,8 +67,9 @@ nmap <leader>gsh :Git push<CR>
 nmap <leader>gll :Git pull<CR>
 " nmap <leader>gb  :Git blame<CR>
 nmap <leader>gr  :Gremove<CR>
-nmap <leader>h]  :GitGutterNextHunk<CR>
-nmap <leader>h[  :GitGutterPrevHunk<CR>
+nmap <leader>hn  :GitGutterNextHunk<CR>
+nmap <leader>hp  :GitGutterPrevHunk<CR>
+nmap <leader>hz  :GitGutterUndoHunk<CR>
 
 "" Highlight
 nmap <Esc><Esc> :noh<CR>

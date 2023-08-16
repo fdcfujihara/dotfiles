@@ -6,9 +6,11 @@ function screenshot -d '-s to select region'
     set -l file "$dir/screenshot-"(date +'%Y%m%d-%H%M%S')".png"
 
     if set -lq _flag_s
-        grim -g "$(slurp)" $file
+        # grim -g "$(slurp)" $file
+        import $file
     else
-        grim $file
+        # grim $file
+        import -window root $file
     end
 
     dunstify -u low $file

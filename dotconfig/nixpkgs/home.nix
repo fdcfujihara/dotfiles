@@ -14,12 +14,12 @@
     home.packages = [ 
 
       pkgs.acpi
-      pkgs.alacritty
+      # pkgs.alacritty
       # pkgs.android-studio
       pkgs.brightnessctl
-      pkgs.dunst
+      # pkgs.dunst
       pkgs.feh
-      pkgs.ffmpeg
+      pkgs.ffmpeg_5-full
       # pkgs.firefox
       pkgs.fish
       # pkgs.google-chrome
@@ -31,12 +31,12 @@
       pkgs.pstree
       # pkgs.ricty
       pkgs.screenkey
-      pkgs.slop
+      # pkgs.slop
       pkgs.xfce.thunar
       pkgs.tldr
       pkgs.usbutils
       # pkgs.vscode
-      pkgs.xautolock
+      # pkgs.xautolock
       pkgs.xorg.xev
 
     ];
@@ -83,9 +83,6 @@
     programs.bash = {
       enable = true;
       bashrcExtra = builtins.readFile /home/fuji/dotfiles/.bashrc;
-      profileExtra = ''
-        kmonad ~/dotfiles/dotconfig/kmonad/config.kbd &
-      '';
     };
     programs.zsh = {
       enable = true;

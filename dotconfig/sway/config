@@ -10,9 +10,9 @@ set $left h
 set $down j
 set $up k
 set $right l
-set $term ~/.nix-profile/bin/alacritty
-set $menu "dmenu_run -fn 'Source Code Pro 11' -sb '#333333' -nf '#aaaaff' -sf '#aaffaa' "
-set $notify ~/.nix-profile/bin/dunstify
+set $term alacritty
+set $menu bemenu-run
+# set $menu "dmenu_run -fn 'Source Code Pro 11' -sb '#333333' -nf '#aaaaff' -sf '#aaffaa' "
 
 #
 ### Key bindings
@@ -25,8 +25,8 @@ bindsym $mod+Shift+q    kill
 bindsym $mod+Shift+r    restart
 bindsym $mod+Shift+c    reload
 bindsym $mod+Shift+e    exit
-bindsym $mod+d          exec dunstctl close
-bindsym $mod+Shift+d    exec dunstctl history-pop
+bindsym $mod+d          exec makoctl dismiss
+bindsym $mod+Shift+d    exec makoctl restore
 bindsym $mod+F2         exec $menu
 bindsym $mod+F5         exec fish -c "backlight down"
 bindsym $mod+F6         exec fish -c "backlight up"
@@ -106,17 +106,17 @@ set $mozc  "/run/current-system/sw/lib/mozc/mozc_tool --mode=config_dialog"
 set $studio  "_JAVA_AWT_WM_NONREPARENTING=1 android-studio"
 bindsym $mod+o mode "Launcher" ; exec fish -c launcher_guide
 mode "Launcher" {
-    bindsym a      exec $studio                   ; mode "default" ; exec dunstctl close
-    bindsym c      exec code                      ; mode "default" ; exec dunstctl close
-    bindsym f      exec firefox                   ; mode "default" ; exec dunstctl close
-    bindsym m      exec $mozc                     ; mode "default" ; exec dunstctl close
-    bindsym p      exec pavucontrol               ; mode "default" ; exec dunstctl close
-    bindsym t      exec thunar                    ; mode "default" ; exec dunstctl close
-    bindsym b      exec "fish -c toggle_btdevice" ; mode "default" ; exec dunstctl close
-    bindsym k      exec "fish -c set_keybind"     ; mode "default" ; exec dunstctl close
-    bindsym $mod+o exec "fish -c launcher_guide"  ; exec dunstctl  close
-    bindsym Escape mode "default"                 ; exec dunstctl  close
-    bindsym Return mode "default"                 ; exec dunstctl  close
+    bindsym a      exec $studio                   ; mode "default" ; exec makoctl dismiss
+    bindsym c      exec code                      ; mode "default" ; exec makoctl dismiss
+    bindsym f      exec google-chrome-stable      ; mode "default" ; exec makoctl dismiss
+    bindsym m      exec $mozc                     ; mode "default" ; exec makoctl dismiss
+    bindsym p      exec pavucontrol               ; mode "default" ; exec makoctl dismiss
+    bindsym t      exec thunar                    ; mode "default" ; exec makoctl dismiss
+    bindsym b      exec "fish -c toggle_btdevice" ; mode "default" ; exec makoctl dismiss
+    bindsym k      exec "fish -c set_keybind"     ; mode "default" ; exec makoctl dismiss
+    bindsym $mod+o exec "fish -c launcher_guide"  ; exec makoctl dismiss
+    bindsym Escape mode "default"                 ; exec makoctl dismiss
+    bindsym Return mode "default"                 ; exec makoctl dismiss
 }
 
 #
@@ -206,9 +206,10 @@ default_floating_border pixel 2
 hide_edge_borders smart
 focus_follows_mouse yes
 
-exec fish -c set_gradient_wallpaper
-exec dunst
-exec brightnessctl set 20%
+# exec fish -c set_gradient_wallpaper
+# exec dunst
+exec mako
+# exec brightnessctl set 20%
 exec swayidle -w \
     timeout 420 'swaylock -f' \
     before-sleep 'swaylock'

@@ -10,9 +10,9 @@ set $left h
 set $down j
 set $up k
 set $right l
-set $term ~/.nix-profile/bin/alacritty
+set $term /run/current-system/sw/bin/alacritty
 set $menu "dmenu_run -fn 'Source Code Pro 11' -sb '#333333' -nf '#aaaaff' -sf '#aaffaa' "
-set $notify ~/.nix-profile/bin/dunstify
+set $notify /run/current-system/sw/bin/dunstify
 
 #
 ### Key bindings
@@ -21,6 +21,7 @@ bindsym $mod+f          fullscreen toggle
 bindsym $mod+minus      splitv ; exec $term -e fish
 bindsym $mod+slash      splith ; exec $term -e fish
 bindsym $mod+Return     exec $term -e tmux -u
+bindsym $mod+q          exec systemctl suspend
 bindsym $mod+Shift+q    kill
 bindsym $mod+Shift+r    restart
 bindsym $mod+Shift+c    reload
@@ -106,9 +107,10 @@ set $mozc  "/run/current-system/sw/lib/mozc/mozc_tool --mode=config_dialog"
 set $studio  "_JAVA_AWT_WM_NONREPARENTING=1 android-studio"
 bindsym $mod+o mode "Launcher" ; exec fish -c launcher_guide
 mode "Launcher" {
-    bindsym a      exec android-studio            ; mode "default" ; exec dunstctl close
+    bindsym a      exec $studio                   ; mode "default" ; exec dunstctl close
     bindsym c      exec code                      ; mode "default" ; exec dunstctl close
     bindsym f      exec google-chrome-stable      ; mode "default" ; exec dunstctl close
+    bindsym s      exec slack                     ; mode "default" ; exec dunstctl close
     bindsym m      exec $mozc                     ; mode "default" ; exec dunstctl close
     bindsym p      exec pavucontrol               ; mode "default" ; exec dunstctl close
     bindsym t      exec thunar                    ; mode "default" ; exec dunstctl close
@@ -163,7 +165,7 @@ bar {
     # i3bar_command /usr/bin/i3bar
     status_command fish -c statusline
     position bottom
-    font pango:monospace bold 13
+    font pango:monospace bold 11
     colors {
         statusline $white
         background $gray0
@@ -180,18 +182,18 @@ bar {
 for_window [class="feh" instance="feh"] floating enable
 for_window [class="Thunar" instance="thunar"] floating enable
 for_window [class="Pavucontrol" instance="pavucontrol"] floating enable
-font pango:monospace bold 13
+font pango:monospace bold 11
 default_border pixel 2
 default_floating_border pixel 2
 hide_edge_borders smart
 focus_follows_mouse yes
 
-exec fish -c set_gradient_wallpaper
+# exec fish -c set_gradient_wallpaper
 exec dunst
-exec brightnessctl set 20%
+# exec brightnessctl set 20%
 exec xautolock -time 10 -notify 10 -notifier "$notify zzz" -locker "i3lock -i /tmp/wallpaper.png" -detectsleep -corners 000-
 
 ## Input
 exec fish -c config_touchpad
 exec ibus-daemon --daemonize --replace --xim --restart # terminal emulators need '--xim'
-exec xset r rate 170 20
+exec xset r rate 150 30

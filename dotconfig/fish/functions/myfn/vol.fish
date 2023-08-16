@@ -10,7 +10,7 @@ function vol -a mode -d'Set audio volume. Argument: (mute|up|down)'
         pactl set-sink-mute (current_sink_id) 0
         pactl set-sink-volume (current_sink_id) $volume'%'
         # Show the volume notification
-        dunstify -a "changeVolume" -u low -i audio-volume-high -r "$volmsgid" -h int:value:"$volume" (audio_icon)' '$volume'%'
+        notify-send -a "changeVolume" -u low -i audio-volume-high -r "$volmsgid" -h int:value:"$volume" (audio_icon)' '$volume'%'
     end
 
     if test $mode = mute
@@ -19,7 +19,7 @@ function vol -a mode -d'Set audio volume. Argument: (mute|up|down)'
         and set msg (audio_icon)
         or set msg (audio_icon)' '(current_sink_volume)'%'
         # Show the sound muted notification
-        dunstify -a "changeVolume" -u low -i audio-volume-muted -r "$volmsgid" "$msg"
+        notify-send -a "changeVolume" -u low -i audio-volume-muted -r "$volmsgid" "$msg"
     else if test $mode = up
         set vol (min (math -s0 (current_sink_volume)' * 1.1 + 1') 150)
         set_volume $vol
